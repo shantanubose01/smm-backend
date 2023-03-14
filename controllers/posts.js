@@ -6,6 +6,9 @@ export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
     const user = await User.findById(userId);
+    if(req.file.location){
+      picturePath = req.file.location ;
+    }
     const newPost = new Post({
       userId,
       firstName: user.firstName,
@@ -13,7 +16,7 @@ export const createPost = async (req, res) => {
       location: user.location,
       description,
       userPicturePath: user.picturePath,
-      picturePath : req.file.location,
+      picturePath,
       likes: {},
       comments: [],
     });
